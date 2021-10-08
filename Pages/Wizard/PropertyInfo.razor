@@ -1,0 +1,49 @@
+﻿<h3>Address</h3>
+<EditForm EditContext="PInfoContext" autocomplete="off">
+    <FluentValidationValidator />
+   
+
+    <div class="row mb-3">
+        <label for="Street" class="col-sm-2 col-form-label col-form-label-sm">Street</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="PInfo.Street" class="form-control form-control-sm" id="Street" >
+            <ValidationMessage For="@(()=>PInfo.Street)" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="City" class="col-sm-2 col-form-label col-form-label-sm">City</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="PInfo.City" class="form-control form-control-sm" id="City" >
+            <ValidationMessage For="@(()=>PInfo.City)" />
+        </div>
+    </div>
+
+    @*<div class="row mb-3">
+        <label for="Zip" class="col-sm-2 col-form-label col-form-label-sm">Zip</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="PInfo.Zip" class="form-control form-control-sm" id="Zip" >
+            <ValidationMessage For="@(()=>PInfo.Zip)" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="State" class="col-sm-2 col-form-label col-form-label-sm">State</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="PInfo.State" class="form-control form-control-sm" id="State">
+            <ValidationMessage For="@(()=>PInfo.State)" />
+        </div>
+    </div>*@
+
+</EditForm>
+
+@code {
+    [Parameter] public PropertyInformation PInfo { get; set; }
+    [Parameter] public EditContext PInfoContext { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+
+}

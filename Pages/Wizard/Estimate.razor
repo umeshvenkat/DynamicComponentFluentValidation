@@ -1,0 +1,97 @@
+﻿
+<DynamicComponent Type="currentComponent.ComponentType" Parameters="currentComponent.ComponentParameters"></DynamicComponent>
+
+@*@if (currentIndex == 0)
+{
+<PropertyInfo PInfo="Estimation.PInfo" PInfoContext="PInfoContext"></PropertyInfo>
+}
+else
+{
+<TaxInfo TInfo="Estimation.TInfo" TInfoContext="TInfoContext"></TaxInfo>
+}*@
+
+<button type="submit" @onclick="Validate" style="visibility:hidden">Validate</button>
+<button type="button" @onclick="Previous">Previous</button>
+<button type="button" @onclick="Next">Next</button>
+
+@code {
+    public static CreateEstimation Estimation { get; set; } = new CreateEstimation() { PInfo = new PropertyInformation(), TInfo=new TaxInformation() };
+    public static EditContext PInfoContext { get; set; }
+    public EditContext TInfoContext { get; set; }
+
+    private ComponentMetadata currentComponent = null;
+
+    private int currentIndex = 0;
+
+    private Dictionary<string, ComponentMetadata> paramsDictionaries = null;
+
+    protected override void OnInitialized()
+    {
+        PInfoContext = new EditContext(Estimation.PInfo);
+        TInfoContext = new EditContext(Estimation.TInfo);
+
+        paramsDictionaries = new()
+        {
+            {
+                "PropertyInfo",
+                new ComponentMetadata
+                {
+                    ComponentType = typeof(PropertyInfo),
+                    EditContext = PInfoContext,
+                    ComponentParameters = new Dictionary<string, object>()
+                    {
+                        { "PInfo",Estimation.PInfo },
+                        { "PInfoContext",PInfoContext }
+                    }
+                }
+            },
+            {
+                "TaxInfo",
+                new ComponentMetadata
+                {
+                    ComponentType = typeof(TaxInfo),
+                    EditContext=TInfoContext,
+                    ComponentParameters = new Dictionary<string, object>()
+                    {
+                        { "TInfo",Estimation.TInfo },
+                        { "TInfoContext",TInfoContext }
+                    }
+                }
+            }
+        };
+
+        currentComponent = paramsDictionaries.ElementAt(currentIndex) .Value;
+
+        base.OnInitialized();
+    }
+
+    protected void Next()
+    {
+        if (currentIndex < paramsDictionaries.Count-1)
+        {
+            if (currentComponent.EditContext.Validate())
+            {
+                currentIndex += 1;
+                currentComponent = paramsDictionaries.ElementAt(currentIndex).Value;
+            }
+        }
+    }
+
+    protected void Previous()
+    {
+        if (currentIndex >0 )
+        {
+            currentIndex -= 1;
+            currentComponent = paramsDictionaries.ElementAt(currentIndex).Value;
+            //currentComponent.EditContext = new EditContext(Estimation.PInfo);
+        }
+    }
+
+    protected void Validate()
+    {
+
+        //  PInfoContext.Validate();
+        TInfoContext.Validate();
+        //var msg = PInfoContext.GetValidationMessages();
+    }
+}

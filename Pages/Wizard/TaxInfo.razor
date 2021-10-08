@@ -1,0 +1,32 @@
+﻿<h3>Tax</h3>
+<EditForm EditContext="TInfoContext" autocomplete="off">
+    <FluentValidationValidator/>
+    <div class="row mb-3">
+        <label for="AdditionalTax" class="col-sm-2 col-form-label col-form-label-sm">AdditionalTax</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="TInfo.AdditionalTax" @bind:event="oninput" class="form-control form-control-sm" id="AdditionalTax" placeholder="Additional Tax">
+            <ValidationMessage For="@(()=>TInfo.AdditionalTax)" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="EstimatedTax" class="col-sm-2 col-form-label col-form-label-sm">Estimated Tax</label>
+        <div class="col-sm-10">
+            <input type="text" @bind="TInfo.EstimatedTax" class="form-control form-control-sm" id="EstimatedTax" placeholder="EstimatedTax">
+            <ValidationMessage For="@(()=>TInfo.EstimatedTax)" />
+        </div>
+    </div>
+
+</EditForm>
+
+    @code {
+        [Parameter] public TaxInformation TInfo { get; set; }
+        [Parameter] public EditContext TInfoContext { get; set; }
+
+
+        protected override void OnInitialized()
+        {
+            
+            base.OnInitialized();
+        }
+    }
